@@ -1,5 +1,14 @@
 # Comandos (zk_ATM - Hasher y Verifier.sol)
 
+### Bridge ETHSepolia Tesnet  <---> Scroll Sepolia 
+https://sepolia.scroll.io/bridge?token=ETH
+
+- Faucets para Scroll Sepolia Tesnet:
+https://bwarelabs.com/faucets/scroll-testnet
+https://www.l2faucet.com/scroll
+
+- Faucet Sepolia: https://faucets.chain.link/scroll-sepolia-testnet
+
 ## Scaffold-eth-2 / Hardhat
 ```sh 
 yarn chain
@@ -50,6 +59,19 @@ En la ruta inicial de hardhat ejecutar:
 cp circuits/withdraw.r1cs build
 bash scripts/quickSetup.sh
 snarkjs zkey verify build/withdraw.r1cs build/phase2_final.ptau build/circuit_final.zkey   # verificar claves con circuito
-cp build/Verifier.sol contracts 
+cp build/Verifier.sol contracts  # Verifier address: 0x0918fe077e800b24E1D64c2FE9bb6a12E0255CA9
 ```
 ### Generar Pruebas
+```sh
+mkdir prover
+snarkjs groth16 prove build/circuit_final.zkey circuits/withdraw_js/witness.wtns prover/proof.json prover/public.json
+snarkjs groth16 fullprove circuits/withdraw_js/input.json circuits/withdraw_js/withdraw.wasm build/circuit_final.zkey prover/proof1.json prover/public1.json # generar testigo y prueba
+```
+#### VERIFICAR PRUEBA
+```sh 
+snarkjs groth16 verify build/verification_key.json prover/public.json prover/proof.json
+snarkjs zkey export soliditycalldata prover/public.json prover/proof.json    # parámetros llamada al contrato Verifier.sol
+```
+
+## Address ZKATM: 0x556E6C30C2a28ef3C9c9C464E8Cf0F561678F779
+- Agregado Depositos Transfer y Withdraw para el token
