@@ -22,6 +22,7 @@
     "@openzeppelin/contracts": "~4.8.1",
     "@typechain/ethers-v6": "~0.5.1",
     "big-integer": "^1.6.52",
+    "circomlib": "^2.0.5",
     "circomlibjs-old": "npm:circomlibjs@0.0.8",
     "dotenv": "~16.0.3",
     "envfile": "~6.18.0",
