@@ -1,80 +1,78 @@
-# 🏗 Scaffold-ETH 2
+# Comandos (zk_ATM - Hasher y Verifier.sol)
 
-<h4 align="center">
-  <a href="https://docs.scaffoldeth.io">Documentation</a> |
-  <a href="https://scaffoldeth.io">Website</a>
-</h4>
+### Bridge ETHSepolia Tesnet  <---> Scroll Sepolia 
+https://sepolia.scroll.io/bridge?token=ETH
 
-🧪 An open-source, up-to-date toolkit for building decentralized applications (dapps) on the Ethereum blockchain. It's designed to make it easier for developers to create and deploy smart contracts and build user interfaces that interact with those contracts.
+- Faucets para Scroll Sepolia Tesnet:
+https://bwarelabs.com/faucets/scroll-testnet
+https://www.l2faucet.com/scroll
 
-⚙️ Built using NextJS, RainbowKit, Hardhat, Wagmi, Viem, and Typescript.
+- Faucet Sepolia: https://faucets.chain.link/scroll-sepolia-testnet
 
-- ✅ **Contract Hot Reload**: Your frontend auto-adapts to your smart contract as you edit it.
-- 🪝 **[Custom hooks](https://docs.scaffoldeth.io/hooks/)**: Collection of React hooks wrapper around [wagmi](https://wagmi.sh/) to simplify interactions with smart contracts with typescript autocompletion.
-- 🧱 [**Components**](https://docs.scaffoldeth.io/components/): Collection of common web3 components to quickly build your frontend.
-- 🔥 **Burner Wallet & Local Faucet**: Quickly test your application with a burner wallet and local faucet.
-- 🔐 **Integration with Wallet Providers**: Connect to different wallet providers and interact with the Ethereum network.
-
-![Debug Contracts tab](https://github.com/scaffold-eth/scaffold-eth-2/assets/55535804/b237af0c-5027-4849-a5c1-2e31495cccb1)
-
-## Requirements
-
-Before you begin, you need to install the following tools:
-
-- [Node (>= v18.17)](https://nodejs.org/en/download/)
-- Yarn ([v1](https://classic.yarnpkg.com/en/docs/install/) or [v2+](https://yarnpkg.com/getting-started/install))
-- [Git](https://git-scm.com/downloads)
-
-## Quickstart
-
-To get started with Scaffold-ETH 2, follow the steps below:
-
-1. Install dependencies if it was skipped in CLI:
-
-```
-cd my-dapp-example
-yarn install
-```
-
-2. Run a local network in the first terminal:
-
-```
+## Scaffold-eth-2 / Hardhat
+```sh 
 yarn chain
+yarn start #localhost
+yarn generate #generar cuentas para las networks
+yarn account #imprimir balances de cuentas 
+# Inicialmente no se tiene fondo para deploy. Enviamos fondos a Public address: 0x...
+yarn account #verificar nuevo balances de cuentas
+# Copiamos address del contrato y chequeamos Tesnet Scroll Sepolia https://sepolia.scrollscan.com/
+yarn add circomlibjs-old@npm:circomlibjs@0.0.8 # necesario para hacer 
+yarn add big-integer
+mkdir build  
+node scripts/compileHasher.js
+npx hardhat run scripts/deploy.js --network scrollSepolia #Deploy de contrato Hasher en scrollSepolia
+# Hasher address (Poseidon 1 args): 0xCc735e52E393f125cAFc4E0aEbD80AEd81eA4B41
+ yarn deploy --network scrollSepolia # Despliega los contratos en scrollSepolia
+```
+## Scaffold-eth-2 / Hardhat / Circuits
+
+#### R1CS
+```sh
+yarn add circomlib
+cd circuits
+circom withdraw.circom --inspect   # inspeccionar codigo (errores, advertencias)
+circom withdraw.circom --r1cs --wasm --sym --json   # compilar (sym - archivo de símbolo de señales})
+snarkjs r1cs info withdraw.r1cs   # info (curva, cantd. restricciones y entradas...)
+snarkjs r1cs print withdraw.r1cs withdraw.sym    # mostrar restricciones con señales
+snarkjs r1cs export json withdraw.r1cs withdraw.r1cs.json   # mejor lectura del r1cs (ver mapeo respecto a .sym)
+```
+#### Testigo (Crear archivo input.json)
+```sh 
+cd withdraw_js
+nano input.json   # agregar valores de las señales
+{
+    "root": "0x14fede0676ad0f9cf51a5624214ef16b8ed71acf28346cb295ffb93da237d604",
+    "nullifierHash": "0x1ceba1ab7f0672deab84b6595732266fc91bd24cc69cd435ceafdf1067cfce85",
+    "nullifier": "0x8ea524200e0718c2c609a38fabfcb5b3322a573ccd517ff3c20e7816439fb54a",
+    "secret": "0x00e555634cb7af524dbb216b9338817158c8da9ed33827dc1ca05296cfdd7466",
+    "pathElements": ["0x1d27baa01438d26e8a52f6914806cf329e273630404a9731e3035c38554973dd", "0x22ad4ea9d906223178e5e07ce96027769ee28e66bcfc00237e69c08845cd3972"],
+    "pathIndices": [0,0]
+}
+node generate_witness.js withdraw.wasm input.json witness.wtns   # muestra log() verificar hashs si coinciden
+snarkjs wtns export json witness.wtns witness.json # mejor lectura del testigo
+```
+#### Script Fase 1 (MPC-Perpetual) | Fase 2 sin confianza (QAP, zkey, Verifier.sol)
+En la ruta inicial de hardhat ejecutar:
+```sh
+cp circuits/withdraw.r1cs build
+bash scripts/quickSetup.sh
+snarkjs zkey verify build/withdraw.r1cs build/phase2_final.ptau build/circuit_final.zkey   # verificar claves con circuito
+cp build/Verifier.sol contracts  # Verifier address: 0x0918fe077e800b24E1D64c2FE9bb6a12E0255CA9
+```
+### Generar Pruebas
+```sh
+mkdir prover
+snarkjs groth16 prove build/circuit_final.zkey circuits/withdraw_js/witness.wtns prover/proof.json prover/public.json
+snarkjs groth16 fullprove circuits/withdraw_js/input.json circuits/withdraw_js/withdraw.wasm build/circuit_final.zkey prover/proof1.json prover/public1.json # generar testigo y prueba
+```
+#### VERIFICAR PRUEBA
+```sh 
+snarkjs groth16 verify build/verification_key.json prover/public.json prover/proof.json
+snarkjs zkey export soliditycalldata prover/public.json prover/proof.json    # parámetros llamada al contrato Verifier.sol
 ```
 
-This command starts a local Ethereum network using Hardhat. The network runs on your local machine and can be used for testing and development. You can customize the network configuration in `packages/hardhat/hardhat.config.ts`.
-
-3. On a second terminal, deploy the test contract:
-
-```
-yarn deploy
-```
-
-This command deploys a test smart contract to the local network. The contract is located in `packages/hardhat/contracts` and can be modified to suit your needs. The `yarn deploy` command uses the deploy script located in `packages/hardhat/deploy` to deploy the contract to the network. You can also customize the deploy script.
-
-4. On a third terminal, start your NextJS app:
-
-```
-yarn start
-```
-
-Visit your app on: `http://localhost:3000`. You can interact with your smart contract using the `Debug Contracts` page. You can tweak the app config in `packages/nextjs/scaffold.config.ts`.
-
-Run smart contract test with `yarn hardhat:test`
-
-- Edit your smart contract `YourContract.sol` in `packages/hardhat/contracts`
-- Edit your frontend homepage at `packages/nextjs/app/page.tsx`. For guidance on [routing](https://nextjs.org/docs/app/building-your-application/routing/defining-routes) and configuring [pages/layouts](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts) checkout the Next.js documentation.
-- Edit your deployment scripts in `packages/hardhat/deploy`
-
-
-## Documentation
-
-Visit our [docs](https://docs.scaffoldeth.io) to learn how to start building with Scaffold-ETH 2.
-
-To know more about its features, check out our [website](https://scaffoldeth.io).
-
-## Contributing to Scaffold-ETH 2
-
-We welcome contributions to Scaffold-ETH 2!
-
-Please see [CONTRIBUTING.MD](https://github.com/scaffold-eth/scaffold-eth-2/blob/main/CONTRIBUTING.md) for more information and guidelines for contributing to Scaffold-ETH 2.
+## Address ZKATM: 0x556E6C30C2a28ef3C9c9C464E8Cf0F561678F779
+- Agregado Deposito, Transfer y Withdraw para el Token
+- Actualizado README.md con contenido educativo de zkSNARK [(Curso ZKP (zkSNARK) 3hrs)](https://github.com/manudev97/dapp-zkatm/blob/main/packages/hardhat/Curso%20ZKP%20(zkSNARK)%203hrs.md)

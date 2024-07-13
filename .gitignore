@@ -21,3 +21,6 @@ node_modules
 
 # cli
 dist
+
+# zk
+packages/hardhat/build

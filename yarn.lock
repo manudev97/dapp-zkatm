@@ -2489,6 +2489,7 @@ __metadata:
     "@typescript-eslint/parser": ~6.7.3
     big-integer: ^1.6.52
     chai: ~4.3.6
+    circomlib: ^2.0.5
     circomlibjs-old: "npm:circomlibjs@0.0.8"
     dotenv: ~16.0.3
     envfile: ~6.18.0
@@ -5806,6 +5807,13 @@ __metadata:
     inherits: ^2.0.1
     safe-buffer: ^5.0.1
   checksum: 47d3568dbc17431a339bad1fe7dff83ac0891be8206911ace3d3b818fc695f376df809bea406e759cdea07fff4b454fa25f1013e648851bec790c1d75763032e
+  languageName: node
+  linkType: hard
+
+"circomlib@npm:^2.0.5":
+  version: 2.0.5
+  resolution: "circomlib@npm:2.0.5"
+  checksum: df8c3e0d51007758e30bb7ebad059ce692836420c85179088a20581c0adbf8f969d8cf901f9047adfcb80d45741eef4abe4d0d5e4c46748ace06e04256b5bfe7
   languageName: node
   linkType: hard
 
