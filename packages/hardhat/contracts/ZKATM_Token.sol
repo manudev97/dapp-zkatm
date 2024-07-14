@@ -34,4 +34,5 @@ contract ZKATM_Token is ERC20, ERC20Pausable, Ownable {
     {
         super._update(from, to, value);
     }
+
 }

@@ -36,7 +36,10 @@ contract ATM is MerkleTree {
     // _merkleTreeHeight --> la altura del árbol Merkle de los depósitos
 	// Hasher address (Poseidon 1 args): 0xCc735e52E393f125cAFc4E0aEbD80AEd81eA4B41
 	// Verifier address: 0x0918fe077e800b24E1D64c2FE9bb6a12E0255CA9
-	// ZKATM_TOKENaddress: 0x2a8f9804C5f830ECbe831B2717D210B6d9895134
+	// ZKATM_TOKEN address: 0x2a8f9804C5f830ECbe831B2717D210B6d9895134
+	// ZKATM_TOKEN new address: 0xa78a484c097d27a4922fF07033c702c2Da85b6FC
+	// ATM address: 0x556E6C30C2a28ef3C9c9C464E8Cf0F561678F779
+	// ATM new address: 0xdB7a0b5fB1c909cdBcB19F3748cB957470E94B57 --> 0xd1020f336bebdd4649Daa32B6bAb0660492A7C5b
 	constructor(
     	IVerifier _verifier,
 		address _hasher,
@@ -72,16 +75,16 @@ contract ATM is MerkleTree {
 		bytes32 nullifierHash
 		) {
 		// Puedes ajustar cómo generas el nullifier
-        nullifier = bytes32(keccak256(abi.encodePacked(block.timestamp, msg.sender))); 
+        nullifier = bytes32(uint256(keccak256(abi.encodePacked(block.timestamp, msg.sender))) % MerkleTree.FIELD_SIZE); 
 		// Puedes ajustar cómo generas el secret
-        secret = bytes32(keccak256(abi.encodePacked(nullifier, block.timestamp, msg.sender)));  
+        secret = bytes32(uint256(keccak256(abi.encodePacked(nullifier, block.timestamp, msg.sender))) % MerkleTree.FIELD_SIZE);  
 		commitment = hasher.poseidon([nullifier, secret]);
         nullifierHash = hasher.poseidon([nullifier, nullifier]);
     }
 
 	// commitment el compromiso de nota, que es poseidonhash(anulador + secreto)
     function deposit(bytes32 commitment, uint256 _amount) public  {
-		require(!commitments[commitment], "El compromiso ya se ha insertao");
+		require(!commitments[commitment], "El compromiso ya se ha insertado");
 		if(balance[msg.sender] < _amount) revert InsufficientBalance();
 		require(_amount == denomination, "La cantidad depositada no es admitida");
 		
