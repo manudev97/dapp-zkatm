@@ -1,3 +1,22 @@
+
+# Mixer ZKATM (Backend ZK)
+
+---------------------------------------
+
+<img src="assets/1.png" alt="zkp_alibaba" width="500" height="300"/>
+
+---------------------------------------
+
+<img src="assets/2.png" alt="zkp_alibaba" width="500" height="300"/>
+
+---------------------------------------
+
+<img src="assets/3.png" alt="zkp_alibaba" width="500" height="300"/>
+
+---------------------------------------
+
+- Actualizado README.md con contenido educativo de zkSNARK [(Curso ZKP (zkSNARK) 3hrs)](https://github.com/manudev97/dapp-zkatm/blob/main/packages/hardhat/Curso%20ZKP%20(zkSNARK)%203hrs.md)
+
 # Comandos (zk_ATM - Hasher y Verifier.sol)
 
 ### Bridge ETHSepolia Tesnet  <---> Scroll Sepolia 
@@ -6,8 +25,14 @@ https://sepolia.scroll.io/bridge?token=ETH
 - Faucets para Scroll Sepolia Tesnet:
 https://bwarelabs.com/faucets/scroll-testnet
 https://www.l2faucet.com/scroll
+https://scroll.faucetme.pro/
 
-- Faucet Sepolia: https://faucets.chain.link/scroll-sepolia-testnet
+
+- Faucet Sepolia: 
+https://faucets.chain.link/scroll-sepolia-testnet
+https://cloud.google.com/application/web3/faucet/ethereum/sepolia
+
+- | Block Explorer URL: https://sepolia.scrollscan.com/
 
 ## Scaffold-eth-2 / Hardhat
 ```sh 
@@ -72,7 +97,3 @@ snarkjs groth16 fullprove circuits/withdraw_js/input.json circuits/withdraw_js/w
 snarkjs groth16 verify build/verification_key.json prover/public.json prover/proof.json
 snarkjs zkey export soliditycalldata prover/public.json prover/proof.json    # parámetros llamada al contrato Verifier.sol
 ```
-
-## Address ZKATM: 0x556E6C30C2a28ef3C9c9C464E8Cf0F561678F779
-- Agregado Deposito, Transfer y Withdraw para el Token
-- Actualizado README.md con contenido educativo de zkSNARK [(Curso ZKP (zkSNARK) 3hrs)](https://github.com/manudev97/dapp-zkatm/blob/main/packages/hardhat/Curso%20ZKP%20(zkSNARK)%203hrs.md)
