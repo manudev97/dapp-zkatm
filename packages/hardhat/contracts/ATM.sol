@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.20;
+pragma solidity >=0.8.0 <0.9.0;
 import "./MerkleTree.sol";
 import "./ZKATM_Token.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";  // Importar interfaz del token ERC20
@@ -30,6 +30,7 @@ contract ATM is MerkleTree {
 	mapping (address _account => bool) public initialized;
 	// almacenar compromisos para evitar depósitos accidentales con el mismo compromiso.
 	mapping(bytes32 => bool) public commitments; 						 
+	string public greeting = "Starting to build my ZKATM proyect!!!";
 	// _verifier --> la dirección del contrato verificador para este SNARK
 	// _hasher --> la dirección del contrato hash poseidon 
 	// _denomination --> cantidad a transferir por cada deposito

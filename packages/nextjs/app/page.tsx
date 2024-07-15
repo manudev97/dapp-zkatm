@@ -1,65 +1,59 @@
 "use client";
 
-import Link from "next/link";
 import type { NextPage } from "next";
-import { useAccount } from "wagmi";
-import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { Address } from "~~/components/scaffold-eth";
+import { InputBase } from "~~/components/scaffold-eth";
+import { useScaffoldReadContract } from "~~/hooks/scaffold-eth/useScaffoldReadContract";
+import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth/useScaffoldWriteContract";
+import { IntegerInput } from "~~/components/scaffold-eth";
+import { useState } from "react";
 
 const Home: NextPage = () => {
-  const { address: connectedAddress } = useAccount();
+  const [reqApprove, setApprove] = useState<string | bigint>("");
 
+  const { data: greeting } = useScaffoldReadContract({
+    contractName: "ZKATM_Token",
+    functionName: "greeting",
+    //args: ["0xd8da6bf26964af9d7eed9e03e53415d37aa96045"],
+  });
+
+  const { writeContractAsync: sendApprove } = useScaffoldWriteContract("ZKATM_Token");
+
+  const handleSendApprove = async () => {
+    try {
+      await sendApprove({
+        functionName: "approve",
+        args: ["0xDA6fD1A6D5CC9aAdA5D5a8475fD59865a56CE7A9", BigInt(reqApprove)]
+      });
+    } catch (e) {
+      console.error("Error setting greeting:", e);
+    }
+  };
   return (
     <>
       <div className="flex items-center flex-col flex-grow pt-10">
-        <div className="px-5">
-          <h1 className="text-center">
-            <span className="block text-2xl mb-2">Welcome to</span>
-            <span className="block text-4xl font-bold">Scaffold-ETH 2</span>
-          </h1>
-          <div className="flex justify-center items-center space-x-2 flex-col sm:flex-row">
-            <p className="my-2 font-medium">Connected Address:</p>
-            <Address address={connectedAddress} />
-          </div>
-          <p className="text-center text-lg">
-            Get started by editing{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              packages/nextjs/app/page.tsx
-            </code>
-          </p>
-          <p className="text-center text-lg">
-            Edit your smart contract{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              YourContract.sol
-            </code>{" "}
-            in{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              packages/hardhat/contracts
-            </code>
-          </p>
-        </div>
-
-        <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
-          <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <BugAntIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Tinker with your smart contract using the{" "}
-                <Link href="/debug" passHref className="link">
-                  Debug Contracts
-                </Link>{" "}
-                tab.
-              </p>
-            </div>
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <MagnifyingGlassIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Explore your local transactions with the{" "}
-                <Link href="/blockexplorer" passHref className="link">
-                  Block Explorer
-                </Link>{" "}
-                tab.
-              </p>
+        <div className="card bg-base-100 w-96 shadow-xl">
+          <figure className="px-10 pt-10">
+            <img
+              src="https://cdni.iconscout.com/illustration/premium/thumb/crypto-atm-machine-4292746-3562233.png?f=webp"
+              alt="ZKATM"
+              className="rounded-xl"
+            />
+          </figure>
+          <div className="card-body items-center text-center">
+            <h2 className="card-title">Bienvenido al Mixer ZKATM</h2>
+            <InputBase disabled name="url" placeholder="url" value={greeting} onChange={() => { }} />
+            <label>Cantidad de tokens (ZKATM) para operar</label>
+            <IntegerInput
+              value={reqApprove}
+              onChange={updatedTxValue => {setApprove(updatedTxValue); }}
+              placeholder="value (wei)"
+            />
+            <div className="card-actions justify-end mt-2">
+              <button 
+              onClick={() => handleSendApprove()}
+              className="btn btn-primary w-full  text-white text-2xl"
+              >Aprobar Token ZKATM
+              </button>
             </div>
           </div>
         </div>

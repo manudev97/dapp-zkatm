@@ -5,9 +5,664 @@
 import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
 const deployedContracts = {
-  31337: {
+  534351: {
+    ATM: {
+      address: "0xDA6fD1A6D5CC9aAdA5D5a8475fD59865a56CE7A9",
+      abi: [
+        {
+          inputs: [
+            {
+              internalType: "contract IVerifier",
+              name: "_verifier",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "_hasher",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "_denomination",
+              type: "uint256",
+            },
+            {
+              internalType: "uint32",
+              name: "_merkleTreeHeight",
+              type: "uint32",
+            },
+            {
+              internalType: "contract ZKATM_Token",
+              name: "_zkatmToken",
+              type: "address",
+            },
+          ],
+          stateMutability: "nonpayable",
+          type: "constructor",
+        },
+        {
+          inputs: [],
+          name: "InsufficientBalance",
+          type: "error",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "address",
+              name: "from",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint32",
+              name: "leafIndex",
+              type: "uint32",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "value",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "timestamp",
+              type: "uint256",
+            },
+          ],
+          name: "Deposit",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "address",
+              name: "from",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "value",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "timestamp",
+              type: "uint256",
+            },
+          ],
+          name: "Transfer",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "bytes32",
+              name: "_nullifierHash",
+              type: "bytes32",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "value",
+              type: "uint256",
+            },
+          ],
+          name: "Withdraw",
+          type: "event",
+        },
+        {
+          inputs: [],
+          name: "FIELD_SIZE",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "ROOT_HISTORY_SIZE",
+          outputs: [
+            {
+              internalType: "uint32",
+              name: "",
+              type: "uint32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "ZERO_VALUE",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "_account",
+              type: "address",
+            },
+          ],
+          name: "balance",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "_balance",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "balanceTotalATM",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          name: "commitments",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "currentRootIndex",
+          outputs: [
+            {
+              internalType: "uint32",
+              name: "",
+              type: "uint32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "denomination",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "commitment",
+              type: "bytes32",
+            },
+            {
+              internalType: "uint256",
+              name: "_amount",
+              type: "uint256",
+            },
+          ],
+          name: "deposit",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "filledSubtrees",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "generateCommitment",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "nullifier",
+              type: "bytes32",
+            },
+            {
+              internalType: "bytes32",
+              name: "secret",
+              type: "bytes32",
+            },
+            {
+              internalType: "bytes32",
+              name: "commitment",
+              type: "bytes32",
+            },
+            {
+              internalType: "bytes32",
+              name: "nullifierHash",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getLastRoot",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "greeting",
+          outputs: [
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "_left",
+              type: "bytes32",
+            },
+            {
+              internalType: "bytes32",
+              name: "_right",
+              type: "bytes32",
+            },
+          ],
+          name: "hashLeftRight",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "hasher",
+          outputs: [
+            {
+              internalType: "contract Hasher",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "initializeBalance",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "_account",
+              type: "address",
+            },
+          ],
+          name: "initialized",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "_root",
+              type: "bytes32",
+            },
+          ],
+          name: "isKnownRoot",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "_nullifierHash",
+              type: "bytes32",
+            },
+          ],
+          name: "isSpent",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "levels",
+          outputs: [
+            {
+              internalType: "uint32",
+              name: "",
+              type: "uint32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "nextIndex",
+          outputs: [
+            {
+              internalType: "uint32",
+              name: "",
+              type: "uint32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          name: "nullifierHashes",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "roots",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "_receiver",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "_amount",
+              type: "uint256",
+            },
+            {
+              components: [
+                {
+                  internalType: "uint256[2]",
+                  name: "a",
+                  type: "uint256[2]",
+                },
+                {
+                  internalType: "uint256[2][2]",
+                  name: "b",
+                  type: "uint256[2][2]",
+                },
+                {
+                  internalType: "uint256[2]",
+                  name: "c",
+                  type: "uint256[2]",
+                },
+              ],
+              internalType: "struct Proof",
+              name: "_proof",
+              type: "tuple",
+            },
+            {
+              internalType: "bytes32",
+              name: "_root",
+              type: "bytes32",
+            },
+            {
+              internalType: "bytes32",
+              name: "_nullifierHash",
+              type: "bytes32",
+            },
+          ],
+          name: "transfer",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "verifier",
+          outputs: [
+            {
+              internalType: "contract IVerifier",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "_amount",
+              type: "uint256",
+            },
+            {
+              components: [
+                {
+                  internalType: "uint256[2]",
+                  name: "a",
+                  type: "uint256[2]",
+                },
+                {
+                  internalType: "uint256[2][2]",
+                  name: "b",
+                  type: "uint256[2][2]",
+                },
+                {
+                  internalType: "uint256[2]",
+                  name: "c",
+                  type: "uint256[2]",
+                },
+              ],
+              internalType: "struct Proof",
+              name: "_proof",
+              type: "tuple",
+            },
+            {
+              internalType: "bytes32",
+              name: "_root",
+              type: "bytes32",
+            },
+            {
+              internalType: "bytes32",
+              name: "_nullifierHash",
+              type: "bytes32",
+            },
+          ],
+          name: "withdraw",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "zeros",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "zkatmToken",
+          outputs: [
+            {
+              internalType: "contract ZKATM_Token",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {
+        FIELD_SIZE: "contracts/MerkleTree.sol",
+        ROOT_HISTORY_SIZE: "contracts/MerkleTree.sol",
+        ZERO_VALUE: "contracts/MerkleTree.sol",
+        currentRootIndex: "contracts/MerkleTree.sol",
+        filledSubtrees: "contracts/MerkleTree.sol",
+        getLastRoot: "contracts/MerkleTree.sol",
+        hashLeftRight: "contracts/MerkleTree.sol",
+        hasher: "contracts/MerkleTree.sol",
+        isKnownRoot: "contracts/MerkleTree.sol",
+        levels: "contracts/MerkleTree.sol",
+        nextIndex: "contracts/MerkleTree.sol",
+        roots: "contracts/MerkleTree.sol",
+        zeros: "contracts/MerkleTree.sol",
+      },
+    },
     YourContract: {
-      address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      address: "0xb95e9BC0c62EDDfCc5EEfb1d0744d0aDD3Bb818B",
       abi: [
         {
           inputs: [
@@ -149,16 +804,14 @@ const deployedContracts = {
       ],
       inheritedFunctions: {},
     },
-  },
-  534351: {
-    YourContract: {
-      address: "0x99e92315Ca433a6a17A3073Fb7cC7bAE9e68A305",
+    ZKATM_Token: {
+      address: "0x31Ce1E966Fc3DCD449AF7b440838F78EaBD3fDfE",
       abi: [
         {
           inputs: [
             {
               internalType: "address",
-              name: "_owner",
+              name: "initialOwner",
               type: "address",
             },
           ],
@@ -166,25 +819,137 @@ const deployedContracts = {
           type: "constructor",
         },
         {
+          inputs: [
+            {
+              internalType: "address",
+              name: "spender",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "allowance",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "needed",
+              type: "uint256",
+            },
+          ],
+          name: "ERC20InsufficientAllowance",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "sender",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "balance",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "needed",
+              type: "uint256",
+            },
+          ],
+          name: "ERC20InsufficientBalance",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "approver",
+              type: "address",
+            },
+          ],
+          name: "ERC20InvalidApprover",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "receiver",
+              type: "address",
+            },
+          ],
+          name: "ERC20InvalidReceiver",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "sender",
+              type: "address",
+            },
+          ],
+          name: "ERC20InvalidSender",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "spender",
+              type: "address",
+            },
+          ],
+          name: "ERC20InvalidSpender",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "EnforcedPause",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "ExpectedPause",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "owner",
+              type: "address",
+            },
+          ],
+          name: "OwnableInvalidOwner",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "OwnableUnauthorizedAccount",
+          type: "error",
+        },
+        {
           anonymous: false,
           inputs: [
             {
               indexed: true,
               internalType: "address",
-              name: "greetingSetter",
+              name: "owner",
               type: "address",
             },
             {
-              indexed: false,
-              internalType: "string",
-              name: "newGreeting",
-              type: "string",
-            },
-            {
-              indexed: false,
-              internalType: "bool",
-              name: "premium",
-              type: "bool",
+              indexed: true,
+              internalType: "address",
+              name: "spender",
+              type: "address",
             },
             {
               indexed: false,
@@ -193,12 +958,193 @@ const deployedContracts = {
               type: "uint256",
             },
           ],
-          name: "GreetingChange",
+          name: "Approval",
           type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "previousOwner",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "newOwner",
+              type: "address",
+            },
+          ],
+          name: "OwnershipTransferred",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "Paused",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "from",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "value",
+              type: "uint256",
+            },
+          ],
+          name: "Transfer",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "Unpaused",
+          type: "event",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "owner",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "spender",
+              type: "address",
+            },
+          ],
+          name: "allowance",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "spender",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "value",
+              type: "uint256",
+            },
+          ],
+          name: "approve",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "balanceOf",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "decimals",
+          outputs: [
+            {
+              internalType: "uint8",
+              name: "",
+              type: "uint8",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
         },
         {
           inputs: [],
           name: "greeting",
+          outputs: [
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "amount",
+              type: "uint256",
+            },
+          ],
+          name: "mint",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "name",
           outputs: [
             {
               internalType: "string",
@@ -224,7 +1170,14 @@ const deployedContracts = {
         },
         {
           inputs: [],
-          name: "premium",
+          name: "pause",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "paused",
           outputs: [
             {
               internalType: "bool",
@@ -236,21 +1189,28 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [
-            {
-              internalType: "string",
-              name: "_newGreeting",
-              type: "string",
-            },
-          ],
-          name: "setGreeting",
+          inputs: [],
+          name: "renounceOwnership",
           outputs: [],
-          stateMutability: "payable",
+          stateMutability: "nonpayable",
           type: "function",
         },
         {
           inputs: [],
-          name: "totalCounter",
+          name: "symbol",
+          outputs: [
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "totalSupply",
           outputs: [
             {
               internalType: "uint256",
@@ -265,34 +1225,100 @@ const deployedContracts = {
           inputs: [
             {
               internalType: "address",
-              name: "",
+              name: "to",
               type: "address",
             },
-          ],
-          name: "userGreetingCounter",
-          outputs: [
             {
               internalType: "uint256",
-              name: "",
+              name: "value",
               type: "uint256",
             },
           ],
-          stateMutability: "view",
+          name: "transfer",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "nonpayable",
           type: "function",
         },
         {
-          inputs: [],
-          name: "withdraw",
+          inputs: [
+            {
+              internalType: "address",
+              name: "from",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "value",
+              type: "uint256",
+            },
+          ],
+          name: "transferFrom",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "newOwner",
+              type: "address",
+            },
+          ],
+          name: "transferOwnership",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
         },
         {
-          stateMutability: "payable",
-          type: "receive",
+          inputs: [],
+          name: "unpause",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
         },
       ],
-      inheritedFunctions: {},
+      inheritedFunctions: {
+        allowance:
+          "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol",
+        approve:
+          "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol",
+        balanceOf:
+          "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol",
+        decimals:
+          "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol",
+        name: "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol",
+        symbol:
+          "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol",
+        totalSupply:
+          "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol",
+        transfer:
+          "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol",
+        transferFrom:
+          "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol",
+        paused:
+          "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol",
+        owner: "@openzeppelin/contracts/access/Ownable.sol",
+        renounceOwnership: "@openzeppelin/contracts/access/Ownable.sol",
+        transferOwnership: "@openzeppelin/contracts/access/Ownable.sol",
+      },
     },
   },
 } as const;

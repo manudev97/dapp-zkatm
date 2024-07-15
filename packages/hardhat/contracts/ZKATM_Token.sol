@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: MIT
 // Compatible with OpenZeppelin Contracts ^5.0.0
-pragma solidity ^0.8.20;
+pragma solidity >=0.8.20 <0.9.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract ZKATM_Token is ERC20, ERC20Pausable, Ownable {
+    string public greeting = "Deploy token ZKATM";
+    
     constructor(address initialOwner)
         ERC20("ZKATM_Token", "ZKATM")
         Ownable(initialOwner)
