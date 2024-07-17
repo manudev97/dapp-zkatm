@@ -2529,6 +2529,7 @@ __metadata:
     autoprefixer: ~10.4.12
     blo: ~1.0.1
     burner-connector: ~0.0.8
+    clsx: ^2.1.1
     daisyui: 4.5.0
     eslint: ~8.24.0
     eslint-config-next: ~14.0.4
@@ -2543,6 +2544,7 @@ __metadata:
     react: ~18.2.0
     react-copy-to-clipboard: ~5.1.0
     react-dom: ~18.2.0
+    react-hook-form: ^7.52.1
     react-hot-toast: ~2.4.0
     tailwindcss: ~3.4.3
     type-fest: ~4.6.0
@@ -5995,6 +5997,13 @@ __metadata:
   version: 1.2.1
   resolution: "clsx@npm:1.2.1"
   checksum: 30befca8019b2eb7dbad38cff6266cf543091dae2825c856a62a8ccf2c3ab9c2907c4d12b288b73101196767f66812365400a227581484a05f968b0307cfaf12
+  languageName: node
+  linkType: hard
+
+"clsx@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "clsx@npm:2.1.1"
+  checksum: acd3e1ab9d8a433ecb3cc2f6a05ab95fe50b4a3cfc5ba47abb6cbf3754585fcb87b84e90c822a1f256c4198e3b41c7f6c391577ffc8678ad587fc0976b24fd57
   languageName: node
   linkType: hard
 
@@ -13693,6 +13702,15 @@ __metadata:
   peerDependencies:
     react: ^18.2.0
   checksum: 7d323310bea3a91be2965f9468d552f201b1c27891e45ddc2d6b8f717680c95a75ae0bc1e3f5cf41472446a2589a75aed4483aee8169287909fcd59ad149e8cc
+  languageName: node
+  linkType: hard
+
+"react-hook-form@npm:^7.52.1":
+  version: 7.52.1
+  resolution: "react-hook-form@npm:7.52.1"
+  peerDependencies:
+    react: ^16.8.0 || ^17 || ^18 || ^19
+  checksum: 224fec214c5c7093b6949bc0a4fce3cf9b7a567a2f36dc3c7feeb1e721c5cccbd21f0f0ab19aa1f5f912014264f9c2224181370007609693b6c5ef6778f59ca5
   languageName: node
   linkType: hard
 

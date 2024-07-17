@@ -15,7 +15,7 @@
 
 ---------------------------------------
 
-- Actualizado README.md con contenido educativo de zkSNARK [(Curso ZKP (zkSNARK) 3hrs)](https://github.com/manudev97/dapp-zkatm/blob/main/packages/hardhat/README..md)
+- Actualizado README.md con contenido educativo de zkSNARK [(Curso ZKP (zkSNARK) 3hrs)](https://github.com/manudev97/dapp-zkatm/blob/main/packages/hardhat/README.md)
 
 # Comandos (zk_ATM - Hasher y Verifier.sol)
 
