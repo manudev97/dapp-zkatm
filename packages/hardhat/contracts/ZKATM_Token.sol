@@ -8,12 +8,17 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract ZKATM_Token is ERC20, ERC20Pausable, Ownable {
     string public greeting = "Deploy token ZKATM";
-    
+    address public atmAddress;
+
     constructor(address initialOwner)
         ERC20("ZKATM_Token", "ZKATM")
         Ownable(initialOwner)
     {
         _mint(msg.sender, 1000000 * 10 ** decimals());
+    }
+    
+    function updateATMAddress(address _atm) external onlyOwner {
+        atmAddress = _atm;
     }
 
     function pause() public onlyOwner {
@@ -24,7 +29,7 @@ contract ZKATM_Token is ERC20, ERC20Pausable, Ownable {
         _unpause();
     }
 
-    function mint(address to, uint256 amount) public onlyOwner {
+    function mint(address to, uint256 amount) public onlyATM {
         _mint(to, amount);
     }
 
@@ -37,4 +42,8 @@ contract ZKATM_Token is ERC20, ERC20Pausable, Ownable {
         super._update(from, to, value);
     }
 
+    modifier onlyATM(){
+        require(msg.sender == atmAddress, "only_atm");
+        _;
+    }
 }

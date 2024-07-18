@@ -1,18 +1,18 @@
 "use client";
 import type { NextPage } from "next";
-import ZKATM from "./ZKATM";
-import ATM from "./ATM";
+import Link from "next/link";
 
 const Home: NextPage = () => {
 
   return (
-    <div className="md:py-10 md:w-full">
-      <div role="tablist" className="md:mx-auto tabs tabs-lifted w-1/2 p-10">
-        <input type="radio" name="my_tabs_1" role="tab" className="tab" aria-label="ATM" defaultChecked />
-        <div className="tab-content" role="tabpanel"><ATM /></div>
-
-        <input type="radio" name="my_tabs_1" role="tab" className="tab" aria-label="ZKATM" />
-        <div className="tab-content" role="tabpanel" ><ZKATM /></div>
+    <div className="grid h-full place-items-center text-5xl">
+      <div className="flex gap-2 flex-col items-center">
+        <h1> Welcome to Mixer ATM </h1>
+        <div className="space-x-2">
+          <Link href='/zkatm' className="btn btn-outline btn-success">ZKATM</Link>
+          <Link href='/atm/deposit' className="btn btn-outline btn-success">ATM Deposit</Link>
+          <Link href='/atm/whitedraw' className="btn btn-outline btn-success">ATM Whitedraw</Link>
+        </div>
       </div>
     </div>
   );

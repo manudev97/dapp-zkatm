@@ -16,8 +16,16 @@ type HeaderMenuLink = {
 
 export const menuLinks: HeaderMenuLink[] = [
   {
-    label: "Home",
-    href: "/",
+    label: "ZKATM",
+    href: "/zkatm",
+  },
+  {
+    label: "ATM Depoist",
+    href: "/atm/deposit",
+  },
+  {
+    label: "ATM Whitedraw",
+    href: "/atm/whitedraw",
   },
   {
     label: "Debug Contracts",
@@ -54,7 +62,11 @@ export const HeaderMenuLinks = () => {
 
 /**
  * Site header
+ *
  */
+
+// false -> isZKATM | true -> isATM
+
 export const Header = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const burgerMenuRef = useRef<HTMLDivElement>(null);
@@ -101,7 +113,7 @@ export const Header = () => {
           <HeaderMenuLinks />
         </ul>
       </div>
-      <div className="navbar-end flex-grow mr-4">
+      <div className="navbar-end flex-grow gap-4 px-4">
         <RainbowKitCustomConnectButton />
         <FaucetButton />
       </div>

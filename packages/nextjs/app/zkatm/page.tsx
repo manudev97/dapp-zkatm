@@ -1,13 +1,15 @@
 'use client'
+
+import { NextPage } from "next"
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth/useScaffoldReadContract";
 import { useForm } from "react-hook-form";
 import clsx from "clsx";
-import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
+import { useScaffoldContract, useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 
 type TSubmit = {
   ammount: string
 }
-function ZKATM({className, ...props}: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>) {
+const Zkatm: NextPage = () => {
   const { handleSubmit, register } = useForm<TSubmit>()
   const { data: grettings, isSuccess: success } = useScaffoldReadContract({
     contractName: "ZKATM_Token",
@@ -17,9 +19,13 @@ function ZKATM({className, ...props}: React.DetailedHTMLProps<React.HTMLAttribut
     },
   });
 
+  const { data: contract } = useScaffoldContract({
+    contractName: "ATM",
+  })
+
   const { writeContractAsync: sendApprove, isPending } = useScaffoldWriteContract("ZKATM_Token");
 
-  return  <div {...props} className={clsx("card bg-base-100 h-fit w-auto max-w-1/2 shadow-xl rounded-xl rounded-t-none", className)}>
+  return  <div className={clsx("card bg-base-100 h-fit w-auto max-w-1/2 shadow-xl rounded-xl")}>
     <figure className="overflow-visible relative max-h-[16rem] bg-gray-300">
       <img
         src="https://cdni.iconscout.com/illustration/premium/thumb/crypto-atm-machine-4292746-3562233.png?f=webp"
@@ -34,14 +40,14 @@ function ZKATM({className, ...props}: React.DetailedHTMLProps<React.HTMLAttribut
     </figure>
 
     <form className="card-body" onSubmit={handleSubmit(handleApprobe)}>
-      <h2 className="card-title text-lg md:text-2xl">Bienvenido al Mixer ZKATM</h2>
+      <h2 className="card-title text-lg md:text-2xl">Mixer ZKATM</h2>
 
       <label className="form-control w-full">
         <div className="label">
           <span className="label-text"> Cantidad de tokens (ZKATM) para operar</span>
         </div>
         <div className="input input-bordered flex items-center gap-2">
-          <input required {...register('ammount', { required: true, disabled: !success })} type="text" className="grow bg-inherit" placeholder="Escriba la cantidad" />
+          <input required {...register('ammount', { required: true })} type="number" className="grow bg-inherit" placeholder="Escriba la cantidad" />
           <span className="badge badge-info">wei</span>
         </div>
       </label>
@@ -62,12 +68,12 @@ function ZKATM({className, ...props}: React.DetailedHTMLProps<React.HTMLAttribut
     try {
       await sendApprove({
         functionName: "approve",
-        args: ["0xDA6fD1A6D5CC9aAdA5D5a8475fD59865a56CE7A9", BigInt(data.ammount)]
+        args: [contract?.address, BigInt(data.ammount)]
       });
     } catch (e) {
+      console.warn(e)
     }
   }
 }
 
-
-export default ZKATM
+export default Zkatm

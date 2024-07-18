@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   534351: {
     ATM: {
-      address: "0xDA6fD1A6D5CC9aAdA5D5a8475fD59865a56CE7A9",
+      address: "0x19671AB1B2F7BfC5254aC7C9036DC3e421E6feb0",
       abi: [
         {
           inputs: [
@@ -805,7 +805,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     ZKATM_Token: {
-      address: "0x31Ce1E966Fc3DCD449AF7b440838F78EaBD3fDfE",
+      address: "0xDD8fA77500F94b2286AbE41c81B4a08EdD0429B9",
       abi: [
         {
           inputs: [
@@ -1080,6 +1080,19 @@ const deployedContracts = {
           type: "function",
         },
         {
+          inputs: [],
+          name: "atmAddress",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
           inputs: [
             {
               internalType: "address",
@@ -1290,6 +1303,19 @@ const deployedContracts = {
         {
           inputs: [],
           name: "unpause",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "_atm",
+              type: "address",
+            },
+          ],
+          name: "updateATMAddress",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",

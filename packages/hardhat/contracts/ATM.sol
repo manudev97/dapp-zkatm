@@ -41,6 +41,7 @@ contract ATM is MerkleTree {
 	// ZKATM_TOKEN new address: 0xa78a484c097d27a4922fF07033c702c2Da85b6FC
 	// ATM address: 0x556E6C30C2a28ef3C9c9C464E8Cf0F561678F779
 	// ATM new address: 0xdB7a0b5fB1c909cdBcB19F3748cB957470E94B57 --> 0xd1020f336bebdd4649Daa32B6bAb0660492A7C5b
+	//0xE77d6D6982fF47D3fe83CeBd11BC6f7a2cc0Aef5
 	constructor(
     	IVerifier _verifier,
 		address _hasher,
@@ -58,7 +59,7 @@ contract ATM is MerkleTree {
         require(!initialized[msg.sender], "El saldo ya ha sido inicializado");
 		// Transferir 50 tokens ZKATM al usuario que llama la función
         uint256 tokenAmount = 50 * (10 ** zkatmToken.decimals());  // Ajuste según los decimales del token
-        zkatmToken.transfer(msg.sender, tokenAmount);
+        zkatmToken.mint(msg.sender, tokenAmount);
 		initialized[msg.sender] = true;
 		balance[msg.sender] = zkatmToken.balanceOf(msg.sender);
     }
@@ -87,7 +88,7 @@ contract ATM is MerkleTree {
     function deposit(bytes32 commitment, uint256 _amount) public  {
 		require(!commitments[commitment], "El compromiso ya se ha insertado");
 		if(balance[msg.sender] < _amount) revert InsufficientBalance();
-		require(_amount == denomination, "La cantidad depositada no es admitida");
+		require(_amount == (denomination * (10 ** zkatmToken.decimals())), "La cantidad depositada no es admitida");
 		
 		// Transfiere los tokens desde el usuario que llama a la función hacia este contrato
     	bool transferSuccess = zkatmToken.transferFrom(msg.sender, address(this), _amount);
