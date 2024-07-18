@@ -25,7 +25,7 @@ contract MerkleTree {
 
     constructor(uint32 _levels, address _hasher) {
         require(_levels > 0, "_levels debe ser mayor que cero");
-        require(_levels < 3, "_levels debe ser menor que 3");
+        require(_levels < 6, "_levels debe ser menor que 6");
         levels = _levels;
         hasher = Hasher(_hasher);
     
