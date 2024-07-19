@@ -23,8 +23,8 @@
 Scroll Sepolia
 	Address Contract ZKATM: 0x4c0Fd51D88216250507Ec303ACbE76473a19AfE9 
 	Tx: 0x984adea86081cb1a5eee8a9121b249d986e98c981edf199b59f5576b70a61c86
-	Address Contract ATM 0x3A4b991018579ee83f1Bb3954D71Eaecb9d8149f (solamente 2 niveles)
-	Tx: 0x9de6591e5f67d88f40e825079e4c44fbbcfc756c99af54d9232f8ff2816ff6a3
+	Address Contract ATM 0x7c05E68f0A835459D82532756E7c932cc0aA607f (solamente 2 niveles)
+	Tx: 0x08f2767e036f0c555a93ffc9255e207fcc0a570217f44b5dca16803f2a17d24a
 
 # Comandos (zk_ATM - Hasher y Verifier.sol)
 
