@@ -36,7 +36,8 @@ const AtmDeposit: NextPage = () => {
     }
   });
 
-  const { writeContractAsync: sendAction } = useScaffoldWriteContract("ATM");
+  const { writeContractAsync: deposit } = useScaffoldWriteContract("ATM");
+  const { writeContractAsync: initialized, isSuccess, isPending } = useScaffoldWriteContract("ATM");
 
   const handleGenerate = useCallback(_handleGenerate, [comitment_isRefetch])
 
@@ -89,7 +90,7 @@ const AtmDeposit: NextPage = () => {
       }
       </ul>
 
-    <form className="space-y-2" onSubmit={handleSubmit(handleDeposit)}>
+    <form id="deposit" className="space-y-2" onSubmit={handleSubmit(handleDeposit)}>
       <label className="form-control w-full">
         <div className="label">
           <span className="label-text"> Compromiso </span>
@@ -108,16 +109,25 @@ const AtmDeposit: NextPage = () => {
           <span className="badge badge-info">wei</span>
         </div>
       </label>
+    </form>
 
       <div className="card-actions">
         <button 
+            className="md:ms-auto btn btn-outline text-base"
+            onClick={handleInitialized}
+          >
+            Iniciar Balance
+          { isPending && <span className="loading loading-spinner"></span> }
+        </button>
+        <button 
+          form="deposit"
           type="submit"
-          className="md:ms-auto w-full md:w-auto btn btn-primary text-white text-base"
+          className="btn btn-primary text-white text-base"
         >
         Depositar
         </button>
+        
       </div>
-    </form>
   </>
 
   async function _handleGenerate() {
@@ -127,13 +137,24 @@ const AtmDeposit: NextPage = () => {
 
   async function handleDeposit(data: TDeposit) {
     try {
-      await sendAction({
+      await deposit({
         functionName: "deposit",
         args: [data.commitment, BigInt(data.ammount)]
       });
       await nextIndex_refetch()
       setNewIndex((current) => !current)
     } catch (e) {
+      console.error(e)
+    }
+  }
+
+  async function handleInitialized() {
+    if(isSuccess || isPending) return;
+    try{
+      await initialized({
+        functionName: "initializeBalance",
+      })
+    } catch(e){
       console.error(e)
     }
   }

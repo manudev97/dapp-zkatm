@@ -25,7 +25,7 @@ const deployATM: DeployFunction = async function (hre: HardhatRuntimeEnvironment
   await deploy("ATM", {
     from: deployer,
     // Contract constructor arguments
-    args: ["0x0918fe077e800b24E1D64c2FE9bb6a12E0255CA9", "0xCc735e52E393f125cAFc4E0aEbD80AEd81eA4B41", "5", "5", "0xDD8fA77500F94b2286AbE41c81B4a08EdD0429B9"],
+    args: ["0x0918fe077e800b24E1D64c2FE9bb6a12E0255CA9", "0xCc735e52E393f125cAFc4E0aEbD80AEd81eA4B41", "5", "2", "0x4c0Fd51D88216250507Ec303ACbE76473a19AfE9"],
     log: true,
     // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
     // automatically mining the contract deployment transaction. There is no effect on live networks.

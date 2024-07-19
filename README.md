@@ -17,6 +17,15 @@
 
 - Actualizado README.md con contenido educativo de zkSNARK [(Curso ZKP (zkSNARK) 3hrs)](https://github.com/manudev97/dapp-zkatm/blob/main/packages/hardhat/README.md)
 
+# IMPORTANTE !
+- No utilizar en producción este proyecto es solo con fines educativos sobre la tecnología ZK.
+
+Scroll Sepolia
+	Address Contract ZKATM: 0x4c0Fd51D88216250507Ec303ACbE76473a19AfE9 
+	Tx: 0x984adea86081cb1a5eee8a9121b249d986e98c981edf199b59f5576b70a61c86
+	Address Contract ATM 0x3A4b991018579ee83f1Bb3954D71Eaecb9d8149f (solamente 2 niveles)
+	Tx: 0x9de6591e5f67d88f40e825079e4c44fbbcfc756c99af54d9232f8ff2816ff6a3
+
 # Comandos (zk_ATM - Hasher y Verifier.sol)
 
 ### Bridge ETHSepolia Tesnet  <---> Scroll Sepolia 
@@ -43,7 +52,7 @@ yarn account #imprimir balances de cuentas
 # Inicialmente no se tiene fondo para deploy. Enviamos fondos a Public address: 0x...
 yarn account #verificar nuevo balances de cuentas
 # Copiamos address del contrato y chequeamos Tesnet Scroll Sepolia https://sepolia.scrollscan.com/
-yarn add circomlibjs-old@npm:circomlibjs@0.0.8 # necesario para hacer 
+yarn add circomlibjs-old@npm:circomlibjs@0.0.8 # necesario para hacer match con poseidon en el circuito
 yarn add big-integer
 mkdir build  
 node scripts/compileHasher.js
@@ -66,7 +75,7 @@ snarkjs r1cs export json withdraw.r1cs withdraw.r1cs.json   # mejor lectura del 
 #### Testigo (Crear archivo input.json)
 ```sh 
 cd withdraw_js
-nano input.json   # agregar valores de las señales
+nano input.json   # agregar valores de las señales: Ejemplo
 {
     "root": "0x14fede0676ad0f9cf51a5624214ef16b8ed71acf28346cb295ffb93da237d604",
     "nullifierHash": "0x1ceba1ab7f0672deab84b6595732266fc91bd24cc69cd435ceafdf1067cfce85",

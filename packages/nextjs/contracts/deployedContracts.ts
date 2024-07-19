@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   534351: {
     ATM: {
-      address: "0x2b912c55769B50ca71834774f808143513769969",
+      address: "0x7c05E68f0A835459D82532756E7c932cc0aA607f",
       abi: [
         {
           inputs: [
@@ -805,7 +805,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     ZKATM_Token: {
-      address: "0xDD8fA77500F94b2286AbE41c81B4a08EdD0429B9",
+      address: "0x4c0Fd51D88216250507Ec303ACbE76473a19AfE9",
       abi: [
         {
           inputs: [

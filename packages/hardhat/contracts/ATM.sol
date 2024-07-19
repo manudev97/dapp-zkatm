@@ -37,11 +37,7 @@ contract ATM is MerkleTree {
     // _merkleTreeHeight --> la altura del árbol Merkle de los depósitos
 	// Hasher address (Poseidon 1 args): 0xCc735e52E393f125cAFc4E0aEbD80AEd81eA4B41
 	// Verifier address: 0x0918fe077e800b24E1D64c2FE9bb6a12E0255CA9
-	// ZKATM_TOKEN address: 0x2a8f9804C5f830ECbe831B2717D210B6d9895134
-	// ZKATM_TOKEN new address: 0xa78a484c097d27a4922fF07033c702c2Da85b6FC
-	// ATM address: 0x556E6C30C2a28ef3C9c9C464E8Cf0F561678F779
-	// ATM new address: 0xdB7a0b5fB1c909cdBcB19F3748cB957470E94B57 --> 0xd1020f336bebdd4649Daa32B6bAb0660492A7C5b
-	//0xE77d6D6982fF47D3fe83CeBd11BC6f7a2cc0Aef5
+	
 	constructor(
     	IVerifier _verifier,
 		address _hasher,
@@ -87,7 +83,7 @@ contract ATM is MerkleTree {
 	// commitment el compromiso de nota, que es poseidonhash(anulador + secreto)
     function deposit(bytes32 commitment, uint256 _amount) public  {
 		require(!commitments[commitment], "El compromiso ya se ha insertado");
-		if(balance[msg.sender] < _amount) revert InsufficientBalance();
+		if(zkatmToken.balanceOf(msg.sender) < _amount) revert InsufficientBalance();
 		require(_amount == (denomination * (10 ** zkatmToken.decimals())), "La cantidad depositada no es admitida");
 		
 		// Transfiere los tokens desde el usuario que llama a la función hacia este contrato
