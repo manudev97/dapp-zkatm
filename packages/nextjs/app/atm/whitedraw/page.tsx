@@ -12,7 +12,7 @@ import type { PublicSignals, Groth16Proof } from 'snarkjs'
 
 type TWhitedraw = {
   root?: `0x${string}`
-  ammount?: number
+  ammount: number
   nextIndex?: number
   secret?: `0x${string}`
   nullifierHash?: `0x${string}`
@@ -78,17 +78,18 @@ const AtmWhitedraw: NextPage = () => {
     values: {
       root: root,
       nextIndex: nextIndex,
+      ammount: 0
     }
   })
 
   const handleTest = useCallback(_handleTest, [zeros, filledSubtree, levels])
 
-  const { data: dataProve, isSuccess, isPending, isError, mutate: handleMutationProve } = useMutation({
+  const { data: dataProve, isSuccess: test_isSuccess, isPending: test_isPending, isError: test_isError, mutate: handleMutationProve } = useMutation({
     mutationKey: ['snarkjs-fullProve'],
     mutationFn: handleProve
   })
 
-  const { writeContractAsync: sendAction } = useScaffoldWriteContract("ATM");
+  const { writeContractAsync: execWhitedraw, isPending: whitedraw_isPending, isSuccess: whitedraw_isSuccess, isError: whitedraw_isError } = useScaffoldWriteContract("ATM");
 
   return <>
       <h2 className="card-title text-lg md:text-2xl">Retiro ATM</h2>
@@ -144,24 +145,25 @@ const AtmWhitedraw: NextPage = () => {
             <span className="label-text"> Cantidad de tokens (ATM) para operar</span>
           </div>
           <div className={clsx("input input-bordered flex items-center gap-2", { "input-disabled": true })}>
-            <input {...register('ammount', { required: true, disabled: isSuccess })} disabled={!isSuccess} required type="number" className="grow bg-inherit" placeholder="Escriba la cantidad" />
+            <input {...register('ammount', { required: true, disabled: test_isSuccess })} disabled={!test_isSuccess} required type="number" className="grow bg-inherit" placeholder="Escriba la cantidad" />
             <span className="badge badge-info">wei</span>
           </div>
         </label>
       </form>
 
       <div className="card-actions">
-        <button onClick={handleTest} className={clsx("btn md:ms-auto", { "btn-success": isSuccess, "btn-info": !isSuccess, "btn-error": isError })}>
+        <button onClick={handleTest} className={clsx("btn md:ms-auto", { "btn-success": test_isSuccess, "btn-info": !test_isSuccess, "btn-error": test_isError })}>
           Generar Prueba
-          { isPending && <span className="loading loading-spinner"></span> }
+          { test_isPending && <span className="loading loading-spinner"></span> }
         </button>
         <button
           form="whitedraw"
           type="submit"
-          disabled={!isSuccess}
-          className="w-full md:w-auto btn btn-primary text-white text-base"
+          disabled={!test_isSuccess}
+          className={clsx("w-full md:w-auto btn text-white text-base", { "btn-error": whitedraw_isError, "btn-primary": !whitedraw_isSuccess, 'btn-success': whitedraw_isSuccess })}
         >
-        Retirar
+          Retirar
+          { whitedraw_isPending && <span className="loading loading-spinner"></span> }
         </button>
       </div>
   </>
@@ -211,23 +213,28 @@ const AtmWhitedraw: NextPage = () => {
   }
 
   async function handleWhitedraw(data: TWhitedraw) {
-    if(!dataProve?.proof || !data.ammount) throw new Error('prof not be available')
-    const a = [ BigInt(dataProve.proof.pi_a[0]), BigInt(dataProve.proof.pi_a[1]) ] as const
+    if( !dataProve?.proof ) throw new Error('prof not be available', { cause: dataProve })
+    const a = [ hexify(dataProve.proof.pi_a[0]), hexify(dataProve.proof.pi_a[1]) ] as const as unknown as Readonly<[bigint, bigint]>
     const b = [ 
-      [ BigInt(dataProve.proof.pi_b[0][0]), BigInt(dataProve.proof.pi_b[0][1]) ] as const,  
-      [ BigInt(dataProve.proof.pi_b[1][0]), BigInt(dataProve.proof.pi_b[1][1]) ] as const
+      [ hexify(dataProve.proof.pi_b[0][0]), hexify(dataProve.proof.pi_b[0][1]) ] as const as unknown as Readonly<[bigint, bigint]>,  
+      [ hexify(dataProve.proof.pi_b[1][0]), hexify(dataProve.proof.pi_b[1][1]) ] as const as unknown as Readonly<[bigint, bigint]>
     ] as const
-    const c = [ BigInt(dataProve.proof.pi_c[0]), BigInt(dataProve.proof.pi_c[1]) ] as const
+    const c = [ hexify(dataProve.proof.pi_c[0]), hexify(dataProve.proof.pi_c[1]) ] as const as unknown as Readonly<[bigint, bigint]>
     try {
-      await sendAction({
+      console.log( { ammount: BigInt(data.ammount), prove: { a, b, c } ,root: data.root, nullifierHash :data.nullifierHash } )
+      await execWhitedraw({
         functionName: "withdraw",
         args: [ BigInt(data.ammount), { a, b, c } ,data.root, data.nullifierHash ],
       });
-      console.log( { ammount: BigInt(data.ammount), prove: { a, b, c } ,root: data.root, nullifierHash :data.nullifierHash } )
     } catch (e) {
       console.warn(e)
     }
   }
+
+function hexify(n: string) {
+    return '0x'  + BigInt(n).toString(16)
+}
+
 }
 
 export default AtmWhitedraw
